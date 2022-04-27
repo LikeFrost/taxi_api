@@ -35,6 +35,11 @@ func init() {
 				&controllers.TrafficController{},
 			),
 		),
+		beego.NSNamespace("/money",
+			beego.NSInclude(
+				&controllers.MoneyController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

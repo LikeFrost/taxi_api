@@ -136,6 +136,37 @@ func (q *QuestionController) GetAllQuestion() {
 	q.ServeJSON()
 }
 
+// @Title GetSearchQuestion
+// @Description 搜索投诉信息
+// @router /search/:search [get]
+func (q *QuestionController) GetSearchQuestion() {
+	token, err := q.ParseToken()
+	if err != "" {
+		q.Data["json"] = map[string]interface{}{
+			"code": 102,
+			"msg":  "token失效,请重新登录",
+		}
+		q.ServeJSON()
+		return
+	}
+	_, ok := token.Claims.(jwt.MapClaims)
+	search := q.GetString(":search")
+	question, code, msg := models.GetSearchQuestion(search)
+	if !ok {
+		q.Data["json"] = map[string]interface{}{
+			"code": 102,
+			"msg":  "token失效,请重新登录",
+		}
+	} else {
+		q.Data["json"] = map[string]interface{}{
+			"code":      code,
+			"msg":       msg,
+			"questions": question,
+		}
+	}
+	q.ServeJSON()
+}
+
 //验证token
 func (q *QuestionController) ParseToken() (t *jwt.Token, err string) {
 	authString := q.Ctx.Input.Header("Authorization")

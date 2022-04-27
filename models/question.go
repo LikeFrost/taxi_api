@@ -58,3 +58,13 @@ func GetAllQuestion() (code int, msg string, q []*Question) {
 		return 101, "获取全部投诉信息失败", q
 	}
 }
+
+func GetSearchQuestion(search string) (q []*Question, code int, msg string) {
+	o := orm.NewOrm()
+	cond := orm.NewCondition()
+	cond1 := cond.And("Id__exact", search).Or("CreateTime__exact", search)
+	qs := o.QueryTable("question")
+	qs = qs.SetCond(cond1)
+	qs.All(&q)
+	return q, 100, "查询成功"
+}

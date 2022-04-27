@@ -52,6 +52,42 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["taxi_api/controllers:CarController"] = append(beego.GlobalControllerRouter["taxi_api/controllers:CarController"],
+        beego.ControllerComments{
+            Method: "GetSearchCar",
+            Router: `/search/:search`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["taxi_api/controllers:MoneyController"] = append(beego.GlobalControllerRouter["taxi_api/controllers:MoneyController"],
+        beego.ControllerComments{
+            Method: "DeleteMoney",
+            Router: `/:money`,
+            AllowHTTPMethods: []string{"delete"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["taxi_api/controllers:MoneyController"] = append(beego.GlobalControllerRouter["taxi_api/controllers:MoneyController"],
+        beego.ControllerComments{
+            Method: "AddMoney",
+            Router: `/add`,
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["taxi_api/controllers:MoneyController"] = append(beego.GlobalControllerRouter["taxi_api/controllers:MoneyController"],
+        beego.ControllerComments{
+            Method: "GetAllMoney",
+            Router: `/all`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["taxi_api/controllers:QuestionController"] = append(beego.GlobalControllerRouter["taxi_api/controllers:QuestionController"],
         beego.ControllerComments{
             Method: "GetQuestionByCarId",
@@ -88,6 +124,15 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["taxi_api/controllers:QuestionController"] = append(beego.GlobalControllerRouter["taxi_api/controllers:QuestionController"],
+        beego.ControllerComments{
+            Method: "GetSearchQuestion",
+            Router: `/search/:search`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["taxi_api/controllers:TrafficController"] = append(beego.GlobalControllerRouter["taxi_api/controllers:TrafficController"],
         beego.ControllerComments{
             Method: "GetTrafficByCarId",
@@ -119,6 +164,15 @@ func init() {
         beego.ControllerComments{
             Method: "GetAllTraffic",
             Router: `/all`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["taxi_api/controllers:TrafficController"] = append(beego.GlobalControllerRouter["taxi_api/controllers:TrafficController"],
+        beego.ControllerComments{
+            Method: "GetSearchTraffic",
+            Router: `/search/:search`,
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -183,6 +237,15 @@ func init() {
             Method: "LogUp",
             Router: `/logup`,
             AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["taxi_api/controllers:UserController"] = append(beego.GlobalControllerRouter["taxi_api/controllers:UserController"],
+        beego.ControllerComments{
+            Method: "GetSearchUser",
+            Router: `/search/:search`,
+            AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})

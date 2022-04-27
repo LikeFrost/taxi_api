@@ -146,3 +146,13 @@ func GetAllUsers() (u []*User, code int, msg string) {
 		return u, 101, "获取全部用户失败"
 	}
 }
+
+func GetSearchUser(search string) (u []*User, code int, msg string) {
+	o := orm.NewOrm()
+	cond := orm.NewCondition()
+	cond1 := cond.And("Name__exact", search).Or("IdCard__exact", search).Or("CarId__exact", search).Or("DriveId__exact", search)
+	qs := o.QueryTable("user")
+	qs = qs.SetCond(cond1)
+	qs.All(&u)
+	return u, 100, "查询成功"
+}

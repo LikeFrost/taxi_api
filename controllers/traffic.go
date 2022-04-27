@@ -26,7 +26,6 @@ func (t *TrafficController) AddTraffic() {
 		_, ok := token.Claims.(jwt.MapClaims)
 		var data map[string]interface{}
 		json.Unmarshal(t.Ctx.Input.RequestBody, &data)
-		beego.Error(data)
 		car_id := data["car_id"].(string)
 		user := data["user"].(string)
 		content := data["content"].(string)
@@ -134,6 +133,37 @@ func (t *TrafficController) GetAllTraffic() {
 				"msg":      msg,
 				"traffics": traffic,
 			}
+		}
+	}
+	t.ServeJSON()
+}
+
+// @Title GetSearchTraffic
+// @Description 搜索违章信息
+// @router /search/:search [get]
+func (t *TrafficController) GetSearchTraffic() {
+	token, err := t.ParseToken()
+	if err != "" {
+		t.Data["json"] = map[string]interface{}{
+			"code": 102,
+			"msg":  "token失效,请重新登录",
+		}
+		t.ServeJSON()
+		return
+	}
+	_, ok := token.Claims.(jwt.MapClaims)
+	search := t.GetString(":search")
+	traffic, code, msg := models.GetSearchTraffic(search)
+	if !ok {
+		t.Data["json"] = map[string]interface{}{
+			"code": 102,
+			"msg":  "token失效,请重新登录",
+		}
+	} else {
+		t.Data["json"] = map[string]interface{}{
+			"code":     code,
+			"msg":      msg,
+			"traffics": traffic,
 		}
 	}
 	t.ServeJSON()

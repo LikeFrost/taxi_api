@@ -312,6 +312,37 @@ func (u *UserController) GetAllUsers() {
 	u.ServeJSON()
 }
 
+// @Title GetSearchUser
+// @Description 搜索用户信息
+// @router /search/:search [get]
+func (u *UserController) GetSearchUser() {
+	token, err := u.ParseToken()
+	if err != "" {
+		u.Data["json"] = map[string]interface{}{
+			"code": 102,
+			"msg":  "token失效,请重新登录",
+		}
+		u.ServeJSON()
+		return
+	}
+	_, ok := token.Claims.(jwt.MapClaims)
+	search := u.GetString(":search")
+	user, code, msg := models.GetSearchUser(search)
+	if !ok {
+		u.Data["json"] = map[string]interface{}{
+			"code": 102,
+			"msg":  "token失效,请重新登录",
+		}
+	} else {
+		u.Data["json"] = map[string]interface{}{
+			"code":  code,
+			"msg":   msg,
+			"users": user,
+		}
+	}
+	u.ServeJSON()
+}
+
 //验证token
 func (u *UserController) ParseToken() (t *jwt.Token, err string) {
 	authString := u.Ctx.Input.Header("Authorization")

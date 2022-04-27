@@ -94,3 +94,12 @@ func GetAllCar() (code int, msg string, c []*Car) {
 		return 101, "获取全部车辆信息失败", c
 	}
 }
+func GetSearchCar(search string) (c []*Car, code int, msg string) {
+	o := orm.NewOrm()
+	cond := orm.NewCondition()
+	cond1 := cond.And("CarId__exact", search).Or("Id__exact", search).Or("CarType__exact", search)
+	qs := o.QueryTable("car")
+	qs = qs.SetCond(cond1)
+	qs.All(&c)
+	return c, 100, "查询成功"
+}

@@ -182,6 +182,37 @@ func (c *CarController) GetAllCar() {
 	c.ServeJSON()
 }
 
+// @Title GetSearchCar
+// @Description 搜索车辆信息
+// @router /search/:search [get]
+func (c *CarController) GetSearchCar() {
+	token, err := c.ParseToken()
+	if err != "" {
+		c.Data["json"] = map[string]interface{}{
+			"code": 102,
+			"msg":  "token失效,请重新登录",
+		}
+		c.ServeJSON()
+		return
+	}
+	_, ok := token.Claims.(jwt.MapClaims)
+	search := c.GetString(":search")
+	car, code, msg := models.GetSearchCar(search)
+	if !ok {
+		c.Data["json"] = map[string]interface{}{
+			"code": 102,
+			"msg":  "token失效,请重新登录",
+		}
+	} else {
+		c.Data["json"] = map[string]interface{}{
+			"code": code,
+			"msg":  msg,
+			"cars": car,
+		}
+	}
+	c.ServeJSON()
+}
+
 //验证token
 func (c *CarController) ParseToken() (t *jwt.Token, err string) {
 	authString := c.Ctx.Input.Header("Authorization")
